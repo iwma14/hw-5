@@ -38,6 +38,7 @@ As seen in @tbl-uncomp-care, other than a drop in 2014, corresponding to Medicai
 #| echo: false
 #| tbl-cap: "Average Uncompensated Care Charges Over Time"
 #| label: tbl-uncomp-care
+#| tbl-pos: "H"
 data %>% 
   group_by(year) %>% 
   filter(!is.na(tot_uncomp_care_charges)) %>%
