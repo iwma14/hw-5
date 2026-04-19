@@ -22,11 +22,11 @@ data %>%
        x = "Year",
        y = "Average Uncompensated Care Charges (in millions)")
 ```
+
 # Question 2: Uncompensated Care in Never Expanded States vs. 2014 Adopters
 ```{r}
-adopters_2014 %>% 
+reg_dat_2014 %>% 
   group_by(year, expanded) %>% 
-  filter(!is.na(tot_uncomp_care_charges)) %>% 
   filter(year %in% c(2010:2018)) %>%
   summarize(uncomp_care = mean(tot_uncomp_care_charges)/1000000) %>% 
   ggplot(aes(x = year, y = uncomp_care, color = as.factor(expanded))) + 
@@ -41,10 +41,9 @@ adopters_2014 %>%
 ```
 # Question 3:  2x2 DD table 
 ```{r}
-adopters_2014 %>%  
+reg_dat_2014 %>%  
   filter(year %in% c(2012, 2015)) %>% 
   group_by(year, expanded) %>%
-  filter(!is.na(tot_uncomp_care_charges)) %>%
   mutate(expanded = if_else(expanded,
     "2014 expanders",
     "Never expanded"
@@ -55,14 +54,14 @@ adopters_2014 %>%
 ```
 # Question 5: DD for 2014 adopters vs. no adoption
 ```{r}
-dd_2014 <- lm(tot_uncomp_care_charges/1000000 ~ post + expanded + treat, data = reg_2014_dataset)
+dd_2014 <- lm(tot_uncomp_care_charges/1000000 ~ post + expanded + treat, data = reg_dat_2014)
 modelsummary(dd_2014, statistic = "p.value", stars = TRUE)
 ```
 
 # Question 6: TWFE for 2014 adopters vs. no adoption
 ```{r}
 twfe_2014 <- feols(tot_uncomp_care_charges/1000000 ~ treat | provider_number + year, 
-                   data = reg_2014_dataset,
+                   data = reg_dat_2014,
                    cluster = ~ state)
 modelsummary(twfe_2014, statistic = "p.value", stars = TRUE)
 ```
@@ -70,7 +69,7 @@ modelsummary(twfe_2014, statistic = "p.value", stars = TRUE)
 # Question 7: TWFE for all adopters vs. no adoption
 ```{r}
 # make dataset for twfe
-twfe_all_dataset <- data %>% 
+twfe_dat_all <- data %>% 
   filter(!is.na(tot_uncomp_care_charges)) %>%
   mutate(
     year_adopted = year(date_adopted),
@@ -80,7 +79,7 @@ twfe_all_dataset <- data %>%
 
 # run model
 twfe_all <- feols(tot_uncomp_care_charges/1000000 ~ treat | provider_number + year, 
-                   data = twfe_all_dataset,
+                   data = twfe_dat_all,
                    cluster = ~ state)
 modelsummary(twfe_all, statistic = "p.value", stars = TRUE)
 ```
@@ -88,7 +87,7 @@ modelsummary(twfe_all, statistic = "p.value", stars = TRUE)
 # Question 8: Event Study Graph for 2014 adopters vs. no adoption
 ```{r}
 event_study_2014 <- feols(tot_uncomp_care_charges/1000000 ~ i(year, expanded, ref = 2013) | provider_number + year, 
-                   data = reg_2014_dataset,
+                   data = reg_dat_2014,
                    cluster = ~ state)
 iplot(event_study_2014,
       xlab = "Year",
@@ -97,7 +96,7 @@ iplot(event_study_2014,
 ```
 # Question 9: Event Study Graph for all adopters vs. no adoption
 ```{r}
-event_study_data_all <- data %>% 
+event_dat_all <- data %>% 
   filter(!is.na(expanded)) %>%
   mutate(
     time_to_treat = if_else(expanded == FALSE, 0, year - year(date_adopted)),
@@ -106,7 +105,7 @@ event_study_data_all <- data %>%
 
 event_study_all <- feols(tot_uncomp_care_charges/1000000 ~ i(time_to_treat, expanded, ref = -1) | provider_number + year,
                        cluster = ~ state,
-                       data = event_study_data_all)
+                       data = event_dat_all)
 iplot(event_study_all,
       xlab = "Years Relative to Adoption",
       main = "Event Study: Uncompensated Care for All Adopters vs. No Adoption") +

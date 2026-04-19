@@ -14,21 +14,16 @@ data <- read_csv("../data/output/combined_hcris_mcaid.csv")
 data
 ```
 
-# isolate 2014 adopters
+# isolate 2014 adopters and never adopters and add post/treat variables
 ```{r}
-# filter out post-2014 adopters
-adopters_2014 <- data %>% 
-  filter(expanded == 0 | date_adopted <= ymd("2014-12-31"))
-```
-
-# make DD dataset for 2014 adopters vs. no adoption
-```{r}
-reg_2014_dataset <- adopters_2014 %>% 
+reg_dat_2014 <- data %>% 
+  filter(expanded == 0 | date_adopted <= ymd("2014-12-31")) %>% 
   filter(!is.na(tot_uncomp_care_charges)) %>%
   mutate(
     post = (year >=2014),
-    treat = post * expanded
-  )
+    treat = post * expanded)
+  
 ```
+
 
 

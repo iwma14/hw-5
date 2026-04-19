@@ -1,0 +1,202 @@
+---
+title: "Homework 5 Submission 1"
+author: "Isabelle Ma"
+format:
+  pdf:
+    geometry:
+      - textwidth=6.5in
+      - textheight=9in
+    include-in-header:
+      text: |
+        \usepackage{float}
+---
+```{r}
+#| include: false
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, modelsummary, fixest, knitr, kableExtra)
+
+data <- read_csv("../data/output/combined_hcris_mcaid.csv")
+
+reg_dat_2014 <- data %>% 
+  filter(expanded == 0 | date_adopted <= ymd("2014-12-31")) %>% 
+  filter(!is.na(tot_uncomp_care_charges)) %>%
+  mutate(
+    post = (year >=2014),
+    treat = post * expanded)
+```
+
+# Data Cleaning
+
+After loading the data, I created a subset of the data that includes only the states that never expanded Medicaid and those that adopted Medicaid expansion in 2014. I also created two new variables: `post`, which indicates whether the year is 2014 or later, and `treat`, which is an interaction term between `post` and `expanded`.
+
+# Summarizing the Data 
+
+## Question 1: Uncompensated Care Over Time 
+As seen in @fig-uncomp-care, other than a drop in 2014, corresponding to Medicaid expansion adoption in many states, has overall increased over time.
+
+```{r}
+#| echo: false
+#| fig-cap: "Average Uncompensated Care Charges Over Time"
+#| label: fig-uncomp-care
+data %>% 
+  group_by(year) %>% 
+  filter(!is.na(tot_uncomp_care_charges)) %>%
+  filter(year %in% c(2010:2018)) %>% 
+  summarize(uncomp_care = mean(tot_uncomp_care_charges)/1000000) %>% 
+  ggplot(aes(x = year, y = uncomp_care)) +
+  geom_line() + 
+  labs(title = "Average Uncompensated Care Charges Over Time",
+       x = "Year",
+       y = "Average Uncompensated Care Charges (in millions)")
+```
+
+## Question 2: Uncompensated Care in Never Expanded States vs. 2014 Adopters
+
+As seen in @fig-uncomp-care-expansion, the drop in uncompensated care in 2014 is likely driven by 2014 Medicaid expansion adopters. The graph suggests a potential treatment effect of Medicaid expansion decreasing uncompensated care given the divergence in trends between the two groups after 2014.
+
+```{r}
+#| echo: false
+#| fig-cap: "Average Uncompensated Care Charges Over Time by Medicaid Expansion Status"
+#| warning: false
+#| label: fig-uncomp-care-expansion
+reg_dat_2014 %>% 
+  group_by(year, expanded) %>% 
+  filter(year %in% c(2010:2018)) %>%
+  summarize(uncomp_care = mean(tot_uncomp_care_charges)/1000000) %>% 
+  ggplot(aes(x = year, y = uncomp_care, color = as.factor(expanded))) + 
+  geom_line() +
+  labs(title = "Average Uncompensated Care Charges Over Time by Medicaid Expansion Status",
+       x = "Year",
+       y = "Average Uncompensated Care Charges (in millions)",
+       color = "Medicaid Expansion Status") +
+  scale_color_discrete(
+    labels = c(`FALSE` = "Never expanded", `TRUE` = "Expanded in 2014")
+  )
+```
+
+## Question 3: 2x2 DD Table for Never Expanded States vs. 2014 Adopters
+
+As seen in @tbl-dd-2x2-2014, 2014 adopters appear to have a substantial drop in uncompensated care from 2012 to 2015, while the never expanded states have a slight increase in uncompensated care over the same period. This suggests a potential treatment effect of Medicaid expansion on reducing uncompensated care.
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: tbl-dd-2x2-2014
+#| tbl-cap: "2x2 DD Table for Never Expanded States vs. 2014 Adopters (Uncompensated Care Charges in Millions)"
+#| tbl-pos: "H"
+reg_dat_2014 %>%  
+  filter(year %in% c(2012, 2015)) %>% 
+  group_by(year, expanded) %>%
+  mutate(expanded = if_else(expanded,
+    "2014 expanders",
+    "Never expanded"
+  )) %>% 
+  summarize(uncomp_care = mean(tot_uncomp_care_charges)/1000000) %>% 
+  pivot_wider(names_from = year, values_from = uncomp_care) %>% 
+  rename(Pre = `2012`, Post = `2015`, Group = expanded) %>% 
+  kable(
+    format = "latex",
+    booktabs = TRUE
+  ) 
+  
+```
+
+## Question 4: Medicaid Expansions and Uncompensated Care
+
+The trends, namely the drop in uncompensated care following Medicaid expansion adoption in 2014 and the divergence in uncompensated care seen in 2014 adopters and never adopted states, suggest that Medicaid expansion may have an effect on reducing uncompensated care. Uncompensated care consists of charity care and bad debt, both of which could be influenced by Medicaid expansion. Medicaid expansion would likely reduce charity care by providing insurance coverage to previously uninsured individuals, thus reducing the need for hospitals to provide free care. Expansion may also reduce bad debt by increasing the likelihood that patients can pay their medical bills through insurance coverage.
+
+# Estimating ATEs
+
+## Question 5: DD for 2014 adopters vs. no adoption
+As seen @tbl-dd-reg-2014, the coefficient on the treatment variable is negative and statistically significant, suggesting that Medicaid expansion in 2014 is associated with a decrease in uncompensated care charges. The magnitude of the coefficient indicates that, on average, there is a reduction of approximately $23.7 million in uncompensated care charges for 2014 adopters compared to never adopters.
+```{r}
+#| echo: false
+#| warning: false
+#| label: tbl-dd-reg-2014
+#| tbl-cap: "Difference-in-Differences Regression Results for 2014 Adopters vs. Never Adopters"
+#| tbl-pos: "H"
+dd_2014 <- lm(tot_uncomp_care_charges/1000000 ~ post + expanded + treat, data = reg_dat_2014)
+modelsummary(dd_2014, statistic = "p.value", stars = TRUE, gof_map = c("nobs", "r.squared"))
+```
+
+## Question 6: TWFE for 2014 adopters vs. no adoption
+After controlling for hospital and year fixed effects, the coefficient on the treatment variable remains negative and statistically significant, as seen in @tbl-twfe-reg-2014. The magnitude of the coefficient is slightly more negative than the DD estimate, indicating a reduction of approximately $25.2 million in uncompensated care charges for 2014 adopters compared to never adopters.
+```{r}
+#| echo: false
+#| warning: false
+#| label: tbl-twfe-reg-2014
+#| tbl-cap: "Two-Way Fixed Effects Regression Results for 2014 Adopters"
+#| tbl-pos: "H"
+twfe_2014 <- feols(tot_uncomp_care_charges/1000000 ~ treat | provider_number + year, 
+                   data = reg_dat_2014,
+                   cluster = ~ state)
+modelsummary(twfe_2014, statistic = "p.value", stars = TRUE, gof_map = c("nobs", "r.squared"))
+```
+
+## Question 7: TWFE for all adopters vs. no adoption
+When including all adopters, the coefficient on the treatment variable is still negative and statistically significant, as seen in @tbl-twfe-reg-all. The magnitude of the coefficient is less less negative than the 2014-only TWFE estimate, indicating a reduction of approximately $11.4 million in uncompensated care charges for all adopters compared to never adopters.
+
+```{r}
+#| echo: false
+#| warning: false
+#| label: tbl-twfe-reg-all
+#| tbl-cap: "Two-Way Fixed Effects Regression Results for All Adopters vs. Never Adopters"
+#| tbl-pos: "H"
+# make dataset for twfe
+twfe_dat_all <- data %>% 
+  filter(!is.na(tot_uncomp_care_charges)) %>%
+  mutate(
+    year_adopted = year(date_adopted),
+    post = (year >= year_adopted),
+    treat = post * expanded
+  )
+
+# run model
+twfe_all <- feols(tot_uncomp_care_charges/1000000 ~ treat | provider_number + year, 
+                   data = twfe_dat_all,
+                   cluster = ~ state)
+modelsummary(twfe_all, statistic = "p.value", stars = TRUE, gof_map = c("nobs", "r.squared"))
+```
+
+## Question 8: Event Study Graph for 2014 adopters vs. no adoption
+
+```{r}
+#| echo: false
+#| warning: false
+#| fig-cap: "Event Study Graph for 2014 Adopters vs. Never Adopters"
+
+event_study_2014 <- feols(tot_uncomp_care_charges/1000000 ~ i(year, expanded, ref = 2013) | provider_number + year, 
+                   data = reg_dat_2014,
+                   cluster = ~ state)
+iplot(event_study_2014,
+      xlab = "Year",
+      ylab = "Uncompensated Care (Millions) ",
+       main = "Event Study Plot: 2014 Adopters") +
+  geom_vline(xintercept = 2014, linetype = "dashed", color = "red") 
+```
+
+## Question 9: Event Study Graph for all adopters vs. no adoption
+
+```{r}
+#| echo: false
+#| warning: false
+#| fig-cap: "Event Study Graph for All Adopters vs. Never Adopters"
+event_dat_all <- data %>% 
+  filter(!is.na(expanded)) %>%
+  mutate(
+    time_to_treat = if_else(expanded == FALSE, 0, year - year(date_adopted)),
+    time_to_treat = if_else(time_to_treat < -3, -3, time_to_treat)
+  )
+
+event_study_all <- feols(tot_uncomp_care_charges/1000000 ~ i(time_to_treat, expanded, ref = -1) | provider_number + year,
+                       cluster = ~ state,
+                       data = event_dat_all)
+iplot(event_study_all,
+      xlab = "Years Relative to Adoption",
+      ylab = "Uncompensated Care (Millions)",
+      main = "Event Study Plot: All Adopters") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red")
+```
+
+# Question 10: Synthesis
+Overall, the results suggest that Medicaid expansion is associated with a reduction in uncompensated care charges. The DD and TWFE estimates indicate a statistically significant decrease in uncompensated care for both 2014 adopters and all adopters compared to never adopters. The event study graphs also show a clear drop in uncompensated care following Medicaid expansion adoption, particularly for 2014 adopters. The event study graphs for all adopters have overall small confidence intervals and are close to zero in the pre-treatment period, fulfilling the parallel trends assumption. The event study graph for 2014 adopters has wider confidence intervals in the pre-treatment period, suggesting that the two groups were already diverging, meaning there are some concerns regarding parallel trends. In terms of TWFE, there is a possibility of biased estimators when analyzing staggered treatment times for Medicaid expansion, as earlier treated states become part of the control group for later treated states, which would make the control group less representative.  
