@@ -32,22 +32,22 @@ After loading the data, I created a subset of the data that includes only the st
 # Summarizing the Data 
 
 ## Question 1: Uncompensated Care Over Time 
-As seen in @fig-uncomp-care, other than a drop in 2014, corresponding to Medicaid expansion adoption in many states, has overall increased over time.
+As seen in @tbl-uncomp-care, other than a drop in 2014, corresponding to Medicaid expansion adoption in many states, has overall increased over time.
 
 ```{r}
 #| echo: false
-#| fig-cap: "Average Uncompensated Care Charges Over Time"
-#| label: fig-uncomp-care
+#| tbl-cap: "Average Uncompensated Care Charges Over Time"
+#| label: tbl-uncomp-care
 data %>% 
   group_by(year) %>% 
   filter(!is.na(tot_uncomp_care_charges)) %>%
   filter(year %in% c(2010:2018)) %>% 
   summarize(uncomp_care = mean(tot_uncomp_care_charges)/1000000) %>% 
-  ggplot(aes(x = year, y = uncomp_care)) +
-  geom_line() + 
-  labs(title = "Average Uncompensated Care Charges Over Time",
-       x = "Year",
-       y = "Average Uncompensated Care Charges (in millions)")
+  kable(
+    format = "latex",
+    booktabs = TRUE,
+    col.names = c("Year", "Average Uncompensated Care Charges (in millions)")
+  )
 ```
 
 ## Question 2: Uncompensated Care in Never Expanded States vs. 2014 Adopters
