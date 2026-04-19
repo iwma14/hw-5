@@ -1,0 +1,34 @@
+---
+title: "kff-data-build"
+output: html_document
+---
+
+```{r}
+# load packages
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, readxl)
+```
+
+```{r}
+# read data
+kff.dat <- read_excel('../data/input/mcaid-expansion/reformatted_kff_data.xlsx')
+kff.dat
+```
+
+```{r}
+# clean data
+## create variable for mcaid expansion
+kff.final <- kff.dat %>%
+  mutate(expanded = (`Expansion Status` == 'Adopted'))
+
+# make variable for date adopted
+kff.final <- kff.final %>%
+  mutate(date_adopted = mdy(na_if(`Implementation Date`, "N/A"))) %>%
+  rename(State = Location) %>% 
+  select(State, expanded, date_adopted)
+
+kff.final
+
+write_csv(kff.final,'../data/output/medicaid-kff.csv')
+```
+

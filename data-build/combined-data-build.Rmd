@@ -1,0 +1,36 @@
+---
+title: "combined-data-build"
+output: html_document
+---
+
+```{r}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate)
+```
+
+```{r}
+# read hcris and kff data
+hcris.dat <- read_csv('../data/output/HCRIS_Data_v2010.csv')
+kff.dat <- read_csv('../data/output/medicaid-kff.csv')
+```
+
+
+```{r}
+# make state crosswalk
+state_xwalk <- tibble(
+  state_abb  = state.abb,
+  state_name = state.name
+)
+```
+
+```{r}
+# merge kff and hcris data
+combined.dat <- hcris.dat %>% 
+  left_join(state_xwalk, by = c("state" = "state_abb")) %>%
+  left_join(kff.dat, by = c("state_name" = "State")) %>% 
+  filter(state != "DC") %>% 
+  select(-state_name)
+
+write_csv(combined.dat, '../data/output/combined_hcris_mcaid.csv')
+```
+
