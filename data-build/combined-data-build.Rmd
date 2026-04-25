@@ -21,6 +21,7 @@ state_xwalk <- tibble(
   state_abb  = state.abb,
   state_name = state.name
 )
+state_xwalk
 ```
 
 ```{r}
@@ -32,5 +33,13 @@ combined.dat <- hcris.dat %>%
   select(-state_name)
 
 write_csv(combined.dat, '../data/output/combined_hcris_mcaid.csv')
+```
+
+```{r}
+kff.dat
+```
+
+```{r}
+hcris.dat
 ```
 

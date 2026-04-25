@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Isabelle Ma">
+
+<title>Homework 5 Submission 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="ma-i-hw-5-2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ma-i-hw-5-2_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="ma-i-hw-5-2_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="ma-i-hw-5-2_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="ma-i-hw-5-2_files/libs/quarto-html/popper.min.js"></script>
+<script src="ma-i-hw-5-2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ma-i-hw-5-2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ma-i-hw-5-2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ma-i-hw-5-2_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ma-i-hw-5-2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ma-i-hw-5-2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ma-i-hw-5-2_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework 5 Submission 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Isabelle Ma </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="data-cleaning" class="level1">
+<h1>Data Cleaning</h1>
+<p>After loading the data, I created a subset of the data that includes only the states that never expanded Medicaid and those that adopted Medicaid expansion in 2014. I also created two new variables: <code>post</code>, which indicates whether the year is 2014 or later, and <code>treat</code>, which is an interaction term between <code>post</code> and <code>expanded</code>.</p>
+</section>
+<section id="summarizing-the-data" class="level1">
+<h1>Summarizing the Data</h1>
+<section id="question-1-uncompensated-care-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="question-1-uncompensated-care-over-time">Question 1: Uncompensated Care Over Time</h2>
+<p>As seen in <a href="#tbl-uncomp-care" class="quarto-xref">Table&nbsp;1</a>, other than a drop in 2014, corresponding to Medicaid expansion adoption in many states, has overall increased over time.</p>
+<div class="cell" data-tbl-pos="H">
+<div id="tbl-uncomp-care" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-pos="H">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-uncomp-care-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Average Uncompensated Care Charges Over Time
+</figcaption>
+<div aria-describedby="tbl-uncomp-care-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Year</th>
+<th style="text-align: right;">Average Uncompensated Care Charges (in millions)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">17.36603</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">17.85072</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">19.01288</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">19.25852</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">16.03329</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">15.71064</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">20.33923</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">23.29566</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">26.41690</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="question-2-uncompensated-care-in-never-expanded-states-vs.-2014-adopters" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-uncompensated-care-in-never-expanded-states-vs.-2014-adopters">Question 2: Uncompensated Care in Never Expanded States vs.&nbsp;2014 Adopters</h2>
+<p>As seen in <a href="#fig-uncomp-care-expansion" class="quarto-xref">Figure&nbsp;1</a>, the drop in uncompensated care in 2014 is likely driven by 2014 Medicaid expansion adopters. The graph suggests a potential treatment effect of Medicaid expansion decreasing uncompensated care given the divergence in trends between the two groups after 2014.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-uncomp-care-expansion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-uncomp-care-expansion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ma-i-hw-5-2_files/figure-html/fig-uncomp-care-expansion-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-uncomp-care-expansion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Average Uncompensated Care Charges Over Time by Medicaid Expansion Status
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-3-2x2-dd-table-for-never-expanded-states-vs.-2014-adopters" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-2x2-dd-table-for-never-expanded-states-vs.-2014-adopters">Question 3: 2x2 DD Table for Never Expanded States vs.&nbsp;2014 Adopters</h2>
+<p>As seen in <a href="#tbl-dd-2x2-2014" class="quarto-xref">Table&nbsp;2</a>, 2014 adopters appear to have a substantial drop in uncompensated care from 2012 to 2015, while the never expanded states have a slight increase in uncompensated care over the same period. This suggests a potential treatment effect of Medicaid expansion on reducing uncompensated care.</p>
+<div class="cell" data-tbl-pos="H">
+<div id="tbl-dd-2x2-2014" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-pos="H">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-2x2-2014-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: 2x2 DD Table for Never Expanded States vs.&nbsp;2014 Adopters (Uncompensated Care Charges in Millions)
+</figcaption>
+<div aria-describedby="tbl-dd-2x2-2014-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: right;">Pre</th>
+<th style="text-align: right;">Post</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2014 expanders</td>
+<td style="text-align: right;">19.74580</td>
+<td style="text-align: right;">10.64030</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Never expanded</td>
+<td style="text-align: right;">23.04128</td>
+<td style="text-align: right;">25.13676</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="question-4-medicaid-expansions-and-uncompensated-care" class="level2">
+<h2 class="anchored" data-anchor-id="question-4-medicaid-expansions-and-uncompensated-care">Question 4: Medicaid Expansions and Uncompensated Care</h2>
+<p>The trends, namely the drop in uncompensated care following Medicaid expansion adoption in 2014 and the divergence in uncompensated care seen in 2014 adopters and never adopted states, suggest that Medicaid expansion may have an effect on reducing uncompensated care. Uncompensated care consists of charity care and bad debt, both of which could be influenced by Medicaid expansion. Medicaid expansion would likely reduce charity care by providing insurance coverage to previously uninsured individuals, thus reducing the need for hospitals to provide free care. Expansion may also reduce bad debt by increasing the likelihood that patients can pay their medical bills through insurance coverage.</p>
+</section>
+</section>
+<section id="estimating-ates" class="level1">
+<h1>Estimating ATEs</h1>
+<section id="question-5-dd-for-2014-adopters-vs.-no-adoption" class="level2">
+<h2 class="anchored" data-anchor-id="question-5-dd-for-2014-adopters-vs.-no-adoption">Question 5: DD for 2014 adopters vs.&nbsp;no adoption</h2>
+<p>As seen <a href="#tbl-dd-reg-2014" class="quarto-xref">Table&nbsp;3</a>, the coefficient on the treatment variable is negative and statistically significant, suggesting that Medicaid expansion in 2014 is associated with a decrease in uncompensated care charges. The magnitude of the coefficient indicates that, on average, there is a reduction of approximately $23.7 million in uncompensated care charges for 2014 adopters compared to never adopters.</p>
+<div class="cell" data-tbl-pos="H">
+<div id="tbl-dd-reg-2014" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-pos="H">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-reg-2014-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Difference-in-Differences Regression Results for 2014 Adopters vs.&nbsp;Never Adopters
+</figcaption>
+<div aria-describedby="tbl-dd-reg-2014-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_ee0g0odiaopgt6e846r7 = TinyTable.createTableFunctions("tinytable_ee0g0odiaopgt6e846r7");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '10', j: 2 } ], css_id: 'tinytable_css_10jopl1hqpuxy6oseinb',}, 
+          { positions: [ { i: '8', j: 2 } ], css_id: 'tinytable_css_470wqjuo1z6rqtx50k4s',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '9', j: 2 } ], css_id: 'tinytable_css_viyvwc8r4mbtf3i66t2i',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_3j88zpch0udcymm49m9z',}, 
+          { positions: [ { i: '10', j: 1 } ], css_id: 'tinytable_css_9z8csyanbtowdm03mly8',}, 
+          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_no84tzeqeybhe7p4j7cq',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 }, { i: '9', j: 1 } ], css_id: 'tinytable_css_a7c2r38albrmzgpwg6we',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_ebs3tjbnpx8102fa28w8',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_ee0g0odiaopgt6e846r7.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_10jopl1hqpuxy6oseinb, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_10jopl1hqpuxy6oseinb {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_470wqjuo1z6rqtx50k4s, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_470wqjuo1z6rqtx50k4s {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_viyvwc8r4mbtf3i66t2i, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_viyvwc8r4mbtf3i66t2i { text-align: center }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_3j88zpch0udcymm49m9z, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_3j88zpch0udcymm49m9z {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_9z8csyanbtowdm03mly8, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_9z8csyanbtowdm03mly8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_no84tzeqeybhe7p4j7cq, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_no84tzeqeybhe7p4j7cq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_a7c2r38albrmzgpwg6we, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_a7c2r38albrmzgpwg6we { text-align: left }
+    #tinytable_ee0g0odiaopgt6e846r7 td.tinytable_css_ebs3tjbnpx8102fa28w8, #tinytable_ee0g0odiaopgt6e846r7 th.tinytable_css_ebs3tjbnpx8102fa28w8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_ee0g0odiaopgt6e846r7" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">(1)</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">(Intercept)</td>
+                  <td data-row="1" data-col="2">23.317***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(&lt;0.001)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">postTRUE</td>
+                  <td data-row="3" data-col="2">17.787***</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1"></td>
+                  <td data-row="4" data-col="2">(&lt;0.001)</td>
+                </tr>
+                <tr>
+                  <td data-row="5" data-col="1">expandedTRUE</td>
+                  <td data-row="5" data-col="2">-4.395**</td>
+                </tr>
+                <tr>
+                  <td data-row="6" data-col="1"></td>
+                  <td data-row="6" data-col="2">(0.002)</td>
+                </tr>
+                <tr>
+                  <td data-row="7" data-col="1">treat</td>
+                  <td data-row="7" data-col="2">-23.721***</td>
+                </tr>
+                <tr>
+                  <td data-row="8" data-col="1"></td>
+                  <td data-row="8" data-col="2">(&lt;0.001)</td>
+                </tr>
+                <tr>
+                  <td data-row="9" data-col="1">Num.Obs.</td>
+                  <td data-row="9" data-col="2">30903</td>
+                </tr>
+                <tr>
+                  <td data-row="10" data-col="1">R2</td>
+                  <td data-row="10" data-col="2">0.024</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="question-6-twfe-for-2014-adopters-vs.-no-adoption" class="level2">
+<h2 class="anchored" data-anchor-id="question-6-twfe-for-2014-adopters-vs.-no-adoption">Question 6: TWFE for 2014 adopters vs.&nbsp;no adoption</h2>
+<p>After controlling for hospital and year fixed effects, the coefficient on the treatment variable remains negative and statistically significant, as seen in <a href="#tbl-twfe-reg-2014" class="quarto-xref">Table&nbsp;4</a>. The magnitude of the coefficient is slightly more negative than the DD estimate, indicating a reduction of approximately $25.2 million in uncompensated care charges for 2014 adopters compared to never adopters.</p>
+<div class="cell" data-tbl-pos="H">
+<div id="tbl-twfe-reg-2014" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-pos="H">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-twfe-reg-2014-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Two-Way Fixed Effects Regression Results for 2014 Adopters
+</figcaption>
+<div aria-describedby="tbl-twfe-reg-2014-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_wm8lkp0n1gweo4nrgrfl = TinyTable.createTableFunctions("tinytable_wm8lkp0n1gweo4nrgrfl");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 2 } ], css_id: 'tinytable_css_lhtbnfelbir1nnmg165l',}, 
+          { positions: [ { i: '2', j: 2 } ], css_id: 'tinytable_css_aau6nlkvtclgetx77cji',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_rvvarqjmedj6574avnsi',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_2juyu2o6m7e4j16yt5db',}, 
+          { positions: [ { i: '4', j: 1 } ], css_id: 'tinytable_css_g198pjrmtk812ze0f6gh',}, 
+          { positions: [ { i: '2', j: 1 } ], css_id: 'tinytable_css_eofpncxhwzedk8sonft2',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 } ], css_id: 'tinytable_css_m44ozzvoqiocskq95cl6',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_tubkkt6q7ml0kv8274nm',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_wm8lkp0n1gweo4nrgrfl.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_lhtbnfelbir1nnmg165l, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_lhtbnfelbir1nnmg165l {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_aau6nlkvtclgetx77cji, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_aau6nlkvtclgetx77cji {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_rvvarqjmedj6574avnsi, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_rvvarqjmedj6574avnsi { text-align: center }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_2juyu2o6m7e4j16yt5db, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_2juyu2o6m7e4j16yt5db {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_g198pjrmtk812ze0f6gh, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_g198pjrmtk812ze0f6gh {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_eofpncxhwzedk8sonft2, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_eofpncxhwzedk8sonft2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_m44ozzvoqiocskq95cl6, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_m44ozzvoqiocskq95cl6 { text-align: left }
+    #tinytable_wm8lkp0n1gweo4nrgrfl td.tinytable_css_tubkkt6q7ml0kv8274nm, #tinytable_wm8lkp0n1gweo4nrgrfl th.tinytable_css_tubkkt6q7ml0kv8274nm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_wm8lkp0n1gweo4nrgrfl" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">(1)</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">treat</td>
+                  <td data-row="1" data-col="2">-25.217***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(&lt;0.001)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">Num.Obs.</td>
+                  <td data-row="3" data-col="2">30804</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">R2</td>
+                  <td data-row="4" data-col="2">0.829</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="question-7-twfe-for-all-adopters-vs.-no-adoption" class="level2">
+<h2 class="anchored" data-anchor-id="question-7-twfe-for-all-adopters-vs.-no-adoption">Question 7: TWFE for all adopters vs.&nbsp;no adoption</h2>
+<p>When including all adopters, the coefficient on the treatment variable is still negative and statistically significant, as seen in <a href="#tbl-twfe-reg-all" class="quarto-xref">Table&nbsp;5</a>. The magnitude of the coefficient is less less negative than the 2014-only TWFE estimate, indicating a reduction of approximately $11.4 million in uncompensated care charges for all adopters compared to never adopters.</p>
+<div class="cell" data-tbl-pos="H">
+<div id="tbl-twfe-reg-all" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-tbl-pos="H">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-twfe-reg-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: Two-Way Fixed Effects Regression Results for All Adopters vs.&nbsp;Never Adopters
+</figcaption>
+<div aria-describedby="tbl-twfe-reg-all-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
+    <script>
+      // Create table-specific functions using external factory
+      const tableFns_6nn28oxtvst2wjoxff20 = TinyTable.createTableFunctions("tinytable_6nn28oxtvst2wjoxff20");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 2 } ], css_id: 'tinytable_css_65t3tog9ukcypcbr95bv',}, 
+          { positions: [ { i: '2', j: 2 } ], css_id: 'tinytable_css_6ref3ft9nnbka28wgz0b',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '3', j: 2 } ], css_id: 'tinytable_css_r0508y0kqkqdblp8uv6h',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_bfu2z2zr6xpw3q5risy7',}, 
+          { positions: [ { i: '4', j: 1 } ], css_id: 'tinytable_css_mef8i3nx1gpfu6jgzxd9',}, 
+          { positions: [ { i: '2', j: 1 } ], css_id: 'tinytable_css_piflra0galzde6ua8rr2',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 } ], css_id: 'tinytable_css_7ra4e4nlip2goadl5twp',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_bqqok6wj5j558njs2pvq',}, 
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_6nn28oxtvst2wjoxff20.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+    <style>
+    /* tinytable css entries after */
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_65t3tog9ukcypcbr95bv, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_65t3tog9ukcypcbr95bv {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_6ref3ft9nnbka28wgz0b, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_6ref3ft9nnbka28wgz0b {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_r0508y0kqkqdblp8uv6h, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_r0508y0kqkqdblp8uv6h { text-align: center }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_bfu2z2zr6xpw3q5risy7, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_bfu2z2zr6xpw3q5risy7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_mef8i3nx1gpfu6jgzxd9, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_mef8i3nx1gpfu6jgzxd9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_piflra0galzde6ua8rr2, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_piflra0galzde6ua8rr2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_7ra4e4nlip2goadl5twp, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_7ra4e4nlip2goadl5twp { text-align: left }
+    #tinytable_6nn28oxtvst2wjoxff20 td.tinytable_css_bqqok6wj5j558njs2pvq, #tinytable_6nn28oxtvst2wjoxff20 th.tinytable_css_bqqok6wj5j558njs2pvq {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    </style>
+    <div class="container">
+      <table class="tinytable" id="tinytable_6nn28oxtvst2wjoxff20" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+        
+        <thead>
+              <tr>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">(1)</th>
+              </tr>
+        </thead>
+        <tfoot><tr><td colspan="2">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr></tfoot>
+        <tbody>
+                <tr>
+                  <td data-row="1" data-col="1">treat</td>
+                  <td data-row="1" data-col="2">-11.452***</td>
+                </tr>
+                <tr>
+                  <td data-row="2" data-col="1"></td>
+                  <td data-row="2" data-col="2">(&lt;0.001)</td>
+                </tr>
+                <tr>
+                  <td data-row="3" data-col="1">Num.Obs.</td>
+                  <td data-row="3" data-col="2">29269</td>
+                </tr>
+                <tr>
+                  <td data-row="4" data-col="1">R2</td>
+                  <td data-row="4" data-col="2">0.793</td>
+                </tr>
+        </tbody>
+      </table>
+    </div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="question-8-event-study-graph-for-2014-adopters-vs.-no-adoption" class="level2">
+<h2 class="anchored" data-anchor-id="question-8-event-study-graph-for-2014-adopters-vs.-no-adoption">Question 8: Event Study Graph for 2014 adopters vs.&nbsp;no adoption</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ma-i-hw-5-2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Event Study Graph for 2014 Adopters vs.&nbsp;Never Adopters</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+</section>
+<section id="question-9-event-study-graph-for-all-adopters-vs.-no-adoption" class="level2">
+<h2 class="anchored" data-anchor-id="question-9-event-study-graph-for-all-adopters-vs.-no-adoption">Question 9: Event Study Graph for all adopters vs.&nbsp;no adoption</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ma-i-hw-5-2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Event Study Graph for All Adopters vs.&nbsp;Never Adopters</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="question-10-synthesis" class="level1">
+<h1>Question 10: Synthesis</h1>
+<p>Overall, the results suggest that Medicaid expansion is associated with a reduction in uncompensated care charges. The DD and TWFE estimates indicate a statistically significant decrease in uncompensated care for both 2014 adopters and all adopters compared to never adopters. The event study graphs also show a clear drop in uncompensated care following Medicaid expansion adoption, particularly for 2014 adopters. The event study graphs for all adopters have overall small confidence intervals and are close to zero in the pre-treatment period, fulfilling the parallel trends assumption. The event study graph for 2014 adopters has wider confidence intervals in the pre-treatment period, suggesting that the two groups were already diverging, meaning there are some concerns regarding parallel trends. In terms of TWFE, there is a possibility of biased estimators when analyzing staggered treatment times for Medicaid expansion, as earlier treated states become part of the control group for later treated states, which would make the control group less representative.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

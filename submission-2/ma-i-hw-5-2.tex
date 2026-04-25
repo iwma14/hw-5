@@ -1,0 +1,500 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage[textwidth=6.5in,textheight=9in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{tabularray}
+\usepackage[normalem]{ulem}
+\usepackage{graphicx}
+\usepackage{rotating}
+\UseTblrLibrary{siunitx}
+\NewTableCommand{\tinytableDefineColor}[3]{\definecolor{#1}{#2}{#3}}
+\newcommand{\tinytableTabularrayUnderline}[1]{\underline{#1}}
+\newcommand{\tinytableTabularrayStrikeout}[1]{\sout{#1}}
+\usepackage{float}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Homework 5 Submission 2},
+  pdfauthor={Isabelle Ma},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Homework 5 Submission 2}
+\author{Isabelle Ma}
+\date{}
+\begin{document}
+\maketitle
+
+
+\section{Data Cleaning}\label{data-cleaning}
+
+After loading the data, I created a subset of the data that includes
+only the states that never expanded Medicaid and those that adopted
+Medicaid expansion in 2014. I also created two new variables:
+\texttt{post}, which indicates whether the year is 2014 or later, and
+\texttt{treat}, which is an interaction term between \texttt{post} and
+\texttt{expanded}.
+
+\section{Summarizing the Data}\label{summarizing-the-data}
+
+\subsection{Question 1: Uncompensated Care Over
+Time}\label{question-1-uncompensated-care-over-time}
+
+As seen in Table~\ref{tbl-uncomp-care}, other than a drop in 2014,
+corresponding to Medicaid expansion adoption in many states, has overall
+increased over time.
+
+\begin{table}[H]
+
+\caption{\label{tbl-uncomp-care}Average Uncompensated Care Charges Over
+Time}
+
+\centering{
+
+\begin{tabular}{rr}
+\toprule
+Year & Average Uncompensated Care Charges (in millions)\\
+\midrule
+2010 & 17.36603\\
+2011 & 17.85072\\
+2012 & 19.01288\\
+2013 & 19.25852\\
+2014 & 16.03329\\
+\addlinespace
+2015 & 15.71064\\
+2016 & 20.33923\\
+2017 & 23.29566\\
+2018 & 26.41690\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\subsection{Question 2: Uncompensated Care in Never Expanded States
+vs.~2014
+Adopters}\label{question-2-uncompensated-care-in-never-expanded-states-vs.-2014-adopters}
+
+As seen in Figure~\ref{fig-uncomp-care-expansion}, the drop in
+uncompensated care in 2014 is likely driven by 2014 Medicaid expansion
+adopters. The graph suggests a potential treatment effect of Medicaid
+expansion decreasing uncompensated care given the divergence in trends
+between the two groups after 2014.
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{ma-i-hw-5-2_files/figure-pdf/fig-uncomp-care-expansion-1.pdf}}
+
+}
+
+\caption{\label{fig-uncomp-care-expansion}Average Uncompensated Care
+Charges Over Time by Medicaid Expansion Status}
+
+\end{figure}%
+
+\subsection{Question 3: 2x2 DD Table for Never Expanded States vs.~2014
+Adopters}\label{question-3-2x2-dd-table-for-never-expanded-states-vs.-2014-adopters}
+
+As seen in Table~\ref{tbl-dd-2x2-2014}, 2014 adopters appear to have a
+substantial drop in uncompensated care from 2012 to 2015, while the
+never expanded states have a slight increase in uncompensated care over
+the same period. This suggests a potential treatment effect of Medicaid
+expansion on reducing uncompensated care.
+
+\begin{table}[H]
+
+\caption{\label{tbl-dd-2x2-2014}2x2 DD Table for Never Expanded States
+vs.~2014 Adopters (Uncompensated Care Charges in Millions)}
+
+\centering{
+
+\begin{tabular}{lrr}
+\toprule
+Group & Pre & Post\\
+\midrule
+2014 expanders & 19.74580 & 10.64030\\
+Never expanded & 23.04128 & 25.13676\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\subsection{Question 4: Medicaid Expansions and Uncompensated
+Care}\label{question-4-medicaid-expansions-and-uncompensated-care}
+
+The trends, namely the drop in uncompensated care following Medicaid
+expansion adoption in 2014 and the divergence in uncompensated care seen
+in 2014 adopters and never adopted states, suggest that Medicaid
+expansion may have an effect on reducing uncompensated care.
+Uncompensated care consists of charity care and bad debt, both of which
+could be influenced by Medicaid expansion. Medicaid expansion would
+likely reduce charity care by providing insurance coverage to previously
+uninsured individuals, thus reducing the need for hospitals to provide
+free care. Expansion may also reduce bad debt by increasing the
+likelihood that patients can pay their medical bills through insurance
+coverage.
+
+\section{Estimating ATEs}\label{estimating-ates}
+
+\subsection{Question 5: DD for 2014 adopters vs.~no
+adoption}\label{question-5-dd-for-2014-adopters-vs.-no-adoption}
+
+As seen Table~\ref{tbl-dd-reg-2014}, the coefficient on the treatment
+variable is negative and statistically significant, suggesting that
+Medicaid expansion in 2014 is associated with a decrease in
+uncompensated care charges. The magnitude of the coefficient indicates
+that, on average, there is a reduction of approximately \$23.7 million
+in uncompensated care charges for 2014 adopters compared to never
+adopters.
+
+\begin{table}[H]
+
+\caption{\label{tbl-dd-reg-2014}Difference-in-Differences Regression
+Results for 2014 Adopters vs.~Never Adopters}
+
+\centering{
+
+\centering
+\begin{talltblr}[         %% tabularray outer open
+entry=none,label=none,
+note{}={+ p \num{< 0.1}, * p \num{< 0.05}, ** p \num{< 0.01}, *** p \num{< 0.001}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]},
+hline{2}={1-2}{solid, black, 0.05em},
+hline{10}={1-2}{solid, black, 0.05em},
+hline{1}={1-2}{solid, black, 0.08em},
+hline{12}={1-2}{solid, black, 0.08em},
+column{2}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& (1) \\
+(Intercept) & \num{23.317}*** \\
+& (\num{<0.001}) \\
+postTRUE & \num{17.787}*** \\
+& (\num{<0.001}) \\
+expandedTRUE & \num{-4.395}** \\
+& (\num{0.002}) \\
+treat & \num{-23.721}*** \\
+& (\num{<0.001}) \\
+Num.Obs. & \num{30903} \\
+R2 & \num{0.024} \\
+\end{talltblr}
+
+}
+
+\end{table}%
+
+\subsection{Question 6: TWFE for 2014 adopters vs.~no
+adoption}\label{question-6-twfe-for-2014-adopters-vs.-no-adoption}
+
+After controlling for hospital and year fixed effects, the coefficient
+on the treatment variable remains negative and statistically
+significant, as seen in Table~\ref{tbl-twfe-reg-2014}. The magnitude of
+the coefficient is slightly more negative than the DD estimate,
+indicating a reduction of approximately \$25.2 million in uncompensated
+care charges for 2014 adopters compared to never adopters.
+
+\begin{table}[H]
+
+\caption{\label{tbl-twfe-reg-2014}Two-Way Fixed Effects Regression
+Results for 2014 Adopters}
+
+\centering{
+
+\centering
+\begin{talltblr}[         %% tabularray outer open
+entry=none,label=none,
+note{}={+ p \num{< 0.1}, * p \num{< 0.05}, ** p \num{< 0.01}, *** p \num{< 0.001}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]},
+hline{2}={1-2}{solid, black, 0.05em},
+hline{4}={1-2}{solid, black, 0.05em},
+hline{1}={1-2}{solid, black, 0.08em},
+hline{6}={1-2}{solid, black, 0.08em},
+column{2}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& (1) \\
+treat & \num{-25.217}*** \\
+& (\num{<0.001}) \\
+Num.Obs. & \num{30804} \\
+R2 & \num{0.829} \\
+\end{talltblr}
+
+}
+
+\end{table}%
+
+\subsection{Question 7: TWFE for all adopters vs.~no
+adoption}\label{question-7-twfe-for-all-adopters-vs.-no-adoption}
+
+When including all adopters, the coefficient on the treatment variable
+is still negative and statistically significant, as seen in
+Table~\ref{tbl-twfe-reg-all}. The magnitude of the coefficient is less
+less negative than the 2014-only TWFE estimate, indicating a reduction
+of approximately \$11.4 million in uncompensated care charges for all
+adopters compared to never adopters.
+
+\begin{table}[H]
+
+\caption{\label{tbl-twfe-reg-all}Two-Way Fixed Effects Regression
+Results for All Adopters vs.~Never Adopters}
+
+\centering{
+
+\centering
+\begin{talltblr}[         %% tabularray outer open
+entry=none,label=none,
+note{}={+ p \num{< 0.1}, * p \num{< 0.05}, ** p \num{< 0.01}, *** p \num{< 0.001}},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]},
+hline{2}={1-2}{solid, black, 0.05em},
+hline{4}={1-2}{solid, black, 0.05em},
+hline{1}={1-2}{solid, black, 0.08em},
+hline{6}={1-2}{solid, black, 0.08em},
+column{2}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& (1) \\
+treat & \num{-11.452}*** \\
+& (\num{<0.001}) \\
+Num.Obs. & \num{29269} \\
+R2 & \num{0.793} \\
+\end{talltblr}
+
+}
+
+\end{table}%
+
+\subsection{Question 8: Event Study Graph for 2014 adopters vs.~no
+adoption}\label{question-8-event-study-graph-for-2014-adopters-vs.-no-adoption}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{ma-i-hw-5-2_files/figure-pdf/unnamed-chunk-2-1.pdf}}
+
+}
+
+\caption{Event Study Graph for 2014 Adopters vs.~Never Adopters}
+
+\end{figure}%
+
+\begin{verbatim}
+NULL
+\end{verbatim}
+
+\subsection{Question 9: Event Study Graph for all adopters vs.~no
+adoption}\label{question-9-event-study-graph-for-all-adopters-vs.-no-adoption}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{ma-i-hw-5-2_files/figure-pdf/unnamed-chunk-3-1.pdf}}
+
+}
+
+\caption{Event Study Graph for All Adopters vs.~Never Adopters}
+
+\end{figure}%
+
+\begin{verbatim}
+NULL
+\end{verbatim}
+
+\section{Question 10: Synthesis}\label{question-10-synthesis}
+
+Overall, the results suggest that Medicaid expansion is associated with
+a reduction in uncompensated care charges. The DD and TWFE estimates
+indicate a statistically significant decrease in uncompensated care for
+both 2014 adopters and all adopters compared to never adopters. The
+event study graphs also show a clear drop in uncompensated care
+following Medicaid expansion adoption, particularly for 2014 adopters.
+The event study graphs for all adopters have overall small confidence
+intervals and are close to zero in the pre-treatment period, fulfilling
+the parallel trends assumption. The event study graph for 2014 adopters
+has wider confidence intervals in the pre-treatment period, suggesting
+that the two groups were already diverging, meaning there are some
+concerns regarding parallel trends. In terms of TWFE, there is a
+possibility of biased estimators when analyzing staggered treatment
+times for Medicaid expansion, as earlier treated states become part of
+the control group for later treated states, which would make the control
+group less representative.
+
+
+
+
+\end{document}

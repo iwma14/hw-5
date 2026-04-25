@@ -1,0 +1,35 @@
+---
+title: "data-cleaning"
+output: html_document
+---
+# load packages
+```{r}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate)
+```
+
+# load data
+```{r}
+data <- read_csv("../data/output/combined_hcris_mcaid.csv")
+data <- data %>% 
+  mutate(
+    uncomp_care = tot_uncomp_care_charges + tot_uncomp_care_partial_pmts - bad_debt
+  ) %>% 
+  filter(!is.na(uncomp_care)) %>%
+  filter(uncomp_care >0, !is.na(expanded))
+  
+  
+```
+
+# isolate 2014 adopters and never adopters and add post/treat variables
+```{r}
+reg_dat_2014 <- data %>% 
+  filter(expanded == 0 | date_adopted <= ymd("2014-12-31")) %>% 
+  mutate(
+    post = (year >=2014),
+    treat = post * expanded)
+  
+```
+
+
+
